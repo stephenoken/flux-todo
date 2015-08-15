@@ -7,6 +7,8 @@ var gutil = require('gulp-util');
 var sourcemaps = require('gulp-sourcemaps');
 var assign = require('lodash.assign');
 var babelify = require('babelify');
+var mocha = require('gulp-mocha');
+var babel = require('babel/register');
 // var babel = require('gulp-babel');
 
 var customOpts ={
@@ -22,11 +24,6 @@ b.transform(babelify.configure({
 }));
 b.transform('debowerify');
 
-// gulp.task('babel',function () {
-//    return gulp.src("src/**/*.jsx")
-//       .pipe(babel())
-//       .pipe(gulp.dest("./dist/bin"));
-// });
 gulp.task('js',bundle);
 b.on('update',bundle);
 b.on('log', gutil.log);
@@ -48,6 +45,16 @@ function bundle() {
     .pipe(sourcemaps.write('./')) // writes .map file
     .pipe(gulp.dest('./dist'));
 }
-gulp.task("default",["js"],function () {
-   // gulp.watch('src/**/*.jsx',['babel']);
+
+gulp.task("test",function () {
+  return gulp.src("test/**/*.js")
+    .pipe(mocha({
+      reporter: 'nyan',
+      compilers: babel
+    }));
+});
+
+gulp.task("default",["js","test"],function () {
+   gulp.watch('src/**/*.jsx',['test']);
+   gulp.watch('test/**/*.js',['test']);
 });
