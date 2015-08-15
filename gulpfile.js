@@ -7,7 +7,7 @@ var gutil = require('gulp-util');
 var sourcemaps = require('gulp-sourcemaps');
 var assign = require('lodash.assign');
 var babelify = require('babelify');
-var babel = require('gulp-babel');
+// var babel = require('gulp-babel');
 
 var customOpts ={
    entries: 'src/App.jsx',
@@ -22,11 +22,11 @@ b.transform(babelify.configure({
 }));
 b.transform('debowerify');
 
-gulp.task('babel',function () {
-   return gulp.src("src/**/*.jsx")
-      .pipe(babel())
-      .pipe(gulp.dest("./dist/bin"));
-});
+// gulp.task('babel',function () {
+//    return gulp.src("src/**/*.jsx")
+//       .pipe(babel())
+//       .pipe(gulp.dest("./dist/bin"));
+// });
 gulp.task('js',bundle);
 b.on('update',bundle);
 b.on('log', gutil.log);

@@ -18,7 +18,6 @@ function _classCallCheck(instance, Constructor) {
 }
 
 var constant = require('./constants/TodoConstants.jsx');
-console.log("Hello wrold");
 
 var Animal = (function () {
    function Animal() {
