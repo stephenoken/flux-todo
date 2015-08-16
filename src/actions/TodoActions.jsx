@@ -22,7 +22,7 @@ class TodoActions {
      var actionType = todo.complete? TodoConstants.TODO_UNDO_COMPLETE : TodoConstants.TODO_COMPLETE;
      TodoDispatcher.dispatch({
        actionType: actionType,
-       id : id;
+       id : id
      });
    }
 

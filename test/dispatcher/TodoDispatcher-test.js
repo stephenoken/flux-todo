@@ -7,7 +7,7 @@ require('chai').use(sinonChai);
 describe('TodoDispatcher', function () {
   var TodoDispatcher;
   beforeEach(function () {
-    TodoDispatcher = require('../src/dispatcher/TodoDispatcher.jsx');
+    TodoDispatcher = require('../../src/dispatcher/TodoDispatcher.jsx');
   });
   it('imports the dipsater module', function () {
     expect(TodoDispatcher).not.to.be.null;
@@ -19,6 +19,7 @@ describe('TodoDispatcher', function () {
     var payload = {}
     TodoDispatcher.dispatch(payload);
     expect(listener).to.be.calledOnce;
+    expect(listener.getCall(0).args[0]).to.be.equal(payload);
   });
   it('waits with chained dependancies properly', function () {
     var payload = {};
