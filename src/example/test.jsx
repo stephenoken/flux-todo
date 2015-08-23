@@ -2,7 +2,6 @@ class Converter {
    constructor(){
       this._name = "James";
    }
-
    padding(value) {
       return (value.length === 1)? 0+value:value;
    }
@@ -24,4 +23,8 @@ class Converter {
    }
 }
 
+function test(p) {
+  return 2 * p;
+}
+test("2");
 module.exports = new Converter();

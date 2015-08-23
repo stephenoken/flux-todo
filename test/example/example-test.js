@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-var converter = require('../src/test.jsx');
+var converter = require('../../src/example/test.jsx');
 
 describe('Check if the modules are being imported', function () {
    it('imports sets the converter name', function () {

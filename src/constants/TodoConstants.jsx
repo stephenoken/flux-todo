@@ -16,5 +16,5 @@ var constants = {
    TODO_TOGGLE_COMPLETE_ALL: 'TODO_TOGGLE_COMPLETE_ALL',
    TODO_UNDO_COMPLETE: 'TODO_UNDO_COMPLETE',
    TODO_UPDATE_TEXT: 'TODO_UPDATE_TEXT'
-}
+};
 module.exports = constants;

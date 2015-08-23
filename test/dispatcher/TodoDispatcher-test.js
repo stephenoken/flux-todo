@@ -16,7 +16,7 @@ describe('TodoDispatcher', function () {
     var listener = sinon.spy();
     TodoDispatcher.register(listener);
 
-    var payload = {}
+    var payload = {};
     TodoDispatcher.dispatch(payload);
     expect(listener).to.be.calledOnce;
     expect(listener.getCall(0).args[0]).to.be.equal(payload);

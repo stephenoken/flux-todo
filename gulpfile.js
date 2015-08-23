@@ -1,8 +1,9 @@
+/*global require*/
 var watchify = require('watchify');
 var browserify = require('browserify');
 var gulp = require('gulp');
 var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer')
+var buffer = require('vinyl-buffer');
 var gutil = require('gulp-util');
 var sourcemaps = require('gulp-sourcemaps');
 var assign = require('lodash.assign');

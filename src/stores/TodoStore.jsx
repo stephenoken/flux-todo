@@ -16,13 +16,16 @@ var TodoStore = Object.assign({}, EventEmitter.prototype,{
   areAllcomplete: function () {
     for(var id in _todos){
       if (!_todos[id].complete) {
-        return false
+        return false;
       }
     }
     return true;
   },
   getAll: function () {
     return _todos;
+  },
+  emitChange: function () {
+    this.emit(CHANGE_EVENT);
   }
 });
 TodoDispatcher.register(function (action) {

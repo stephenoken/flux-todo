@@ -32,14 +32,14 @@ class TodoActions {
      });
    }
 
-   destroy(ID){
+   destroy(id){
      TodoDispatcher.dispatch({
        actionType: TodoConstants.TODO_DESTROY,
        id:id
      });
    }
 
-   destroyCompleted(){
+   destroyCompleted(id){
      TodoDispatcher.dispatch({
        actionType: TodoConstants.TODO_DESTROY_COMPLETED,
        id:id

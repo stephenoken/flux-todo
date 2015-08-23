@@ -36,6 +36,8 @@ var Animal = (function () {
 
 var lola = new Animal();
 console.log(lola.makeNoise());
+var test = lola.makeNoise();
+if (test == "Hello") {}
 
 },{"./constants/TodoConstants.jsx":2}],2:[function(require,module,exports){
 // class Animal {
