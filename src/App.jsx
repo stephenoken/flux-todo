@@ -1,11 +1,7 @@
-var constant = require('./constants/TodoConstants.jsx');
-class Animal {
-   makeNoise(){
-      return "Bark goes the animal";
-   }
-}
+var React = require('react');
+var TodoApp = require('./components/TodoApp.react.jsx');
 
-var lola = new Animal();
-console.log(lola.makeNoise());
-var test = lola.makeNoise();
-if(test == "Hello"){}
+React.render(
+  <h1>Hello World</h1>,
+  document.getElementById('content')
+);

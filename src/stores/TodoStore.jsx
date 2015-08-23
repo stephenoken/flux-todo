@@ -34,6 +34,12 @@ var TodoStore = Object.assign({}, EventEmitter.prototype,{
   getAll: function () {
     return _todos;
   },
+  addChangeListener: function(callback) {
+    this.on(CHANGE_EVENT, callback);
+  },
+  removeChangeListener: function(callback) {
+    this.removeListener(CHANGE_EVENT, callback);
+  },
   emitChange: function () {
     this.emit(CHANGE_EVENT);
   }
