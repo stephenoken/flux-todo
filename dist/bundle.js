@@ -40,16 +40,6 @@ var test = lola.makeNoise();
 if (test == "Hello") {}
 
 },{"./constants/TodoConstants.jsx":2}],2:[function(require,module,exports){
-// class Animal {
-//    constructor(name) {
-//       this._name = name;
-//    }
-//
-//    makeNoise(){
-//       return `${this._name} made a noise !!`;
-//    }
-// }
-// module.exports = Animal;
 'use strict';
 
 var constants = {

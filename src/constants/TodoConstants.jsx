@@ -1,13 +1,3 @@
-// class Animal {
-//    constructor(name) {
-//       this._name = name;
-//    }
-//
-//    makeNoise(){
-//       return `${this._name} made a noise !!`;
-//    }
-// }
-// module.exports = Animal;
 var constants = {
    TODO_CREATE: 'TODO_CREATE',
    TODO_COMPLETED: 'TODO_COMPLETED',

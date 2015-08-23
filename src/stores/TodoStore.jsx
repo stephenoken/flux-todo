@@ -9,11 +9,21 @@ function create(text) {
   var id = (new Date()+ Math.floor(Math.random() * 99999)).toString(36);
   _todos[id]= {
     id: id,
+    complete: false,
     text: text
   };
 }
+
+function destroy(id) {
+  delete _todos[id];
+}
+
+function update(id, updates) {
+  _todos[id] = Object.assign({},_todos[id],updates);
+}
+
 var TodoStore = Object.assign({}, EventEmitter.prototype,{
-  areAllcomplete: function () {
+  areAllComplete: function () {
     for(var id in _todos){
       if (!_todos[id].complete) {
         return false;
@@ -38,6 +48,17 @@ TodoDispatcher.register(function (action) {
         TodoStore.emitChange();
       }
       break;
+    case TodoConstants.TODO_DESTROY:
+      destroy(action.id);
+      TodoStore.emitChange();
+      break;
+    case TodoConstants.TODO_COMPLETE:
+      update(action.id, {complete:true});
+      TodoStore.emitChange();
+      break;
+    case TodoConstants.TODO_UNDO_COMPLETE:
+      update(action.id,{complete:false});
+      TodoStore.emitChange();
     default:
 
   }
