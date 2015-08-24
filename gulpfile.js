@@ -13,7 +13,7 @@ var babel = require('babel/register');
 // var babel = require('gulp-babel');
 
 var customOpts ={
-   entries: 'src/App.jsx',
+   entries: './src/App.jsx',
    debug: true
 };
 var opts = assign({}, watchify.args, customOpts);
@@ -21,9 +21,10 @@ var b = watchify(browserify(opts));
 //Transform
 b.transform(babelify.configure({
    compact: false,
-   only: '/src/'
+   only: '/src/',
+   plugins: ["object-assign"]
 }));
-b.transform('debowerify');
+// b.transform('debowerify');
 
 gulp.task('js',bundle);
 b.on('update',bundle);
@@ -32,7 +33,8 @@ b.on('log', gutil.log);
 function bundle() {
    return  b.transform(babelify.configure({
       compact: false,
-      only: '/src/'
+      only: '/src/',
+      plugins: ["object-assign"]
    }))
    .bundle()
     // log errors if they happen

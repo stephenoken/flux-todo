@@ -1,5 +1,5 @@
-var TodoDispatcher = require('../dispatcher/TodoDispatcher');
-var TodoConstants = require('../constants/TodoConstants');
+var TodoDispatcher = require('./../dispatcher/TodoDispatcher.jsx');
+var TodoConstants = require('./../constants/TodoConstants.jsx');
 var EventEmitter = require('events').EventEmitter;
 
 var CHANGE_EVENT = 'change';

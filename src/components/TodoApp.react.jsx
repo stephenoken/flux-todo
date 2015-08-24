@@ -1,5 +1,5 @@
 var React = require('react');
-var TodoStore = require('../stores/TodoStore');
+var TodoStore = require('../stores/TodoStore.jsx');
 function getTodoState() {
   return{
     allTodos: TodoStore.getAll(),
