@@ -1,5 +1,9 @@
 var React = require('react');
 var TodoStore = require('../stores/TodoStore.jsx');
+
+/*components*/
+var Header = require('./Header.react.jsx');
+
 function getTodoState() {
   return{
     allTodos: TodoStore.getAll(),
@@ -18,7 +22,10 @@ var TodoApp = React.createClass({
   },
   render: function () {
     return (
-      <div>Hello World</div>
+      <div>
+        <Header/>
+        <div>Hello World 2.0</div>
+      </div>
     );
   },
   /**

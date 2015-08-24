@@ -20497,11 +20497,126 @@ var TodoApp = require('./components/TodoApp.react.jsx');
 
 React.render(React.createElement(TodoApp, null), document.getElementById('content'));
 
-},{"./components/TodoApp.react.jsx":162,"react":160}],162:[function(require,module,exports){
+},{"./components/TodoApp.react.jsx":164,"react":160}],162:[function(require,module,exports){
+'use strict';
+
+var _createClass = (function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ('value' in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+})();
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError('Cannot call a class as a function');
+  }
+}
+
+var TodoDispatcher = require('../dispatcher/TodoDispatcher.jsx');
+var TodoConstants = require('../constants/TodoConstants.jsx');
+
+var TodoActions = (function () {
+  function TodoActions() {
+    _classCallCheck(this, TodoActions);
+  }
+
+  _createClass(TodoActions, [{
+    key: 'create',
+    value: function create(text) {
+      TodoDispatcher.dispatch({
+        actionType: TodoConstants.TODO_CREATE,
+        text: text
+      });
+    }
+  }, {
+    key: 'updateText',
+    value: function updateText(id, text) {
+      TodoDispatcher.dispatch({
+        actionType: TodoConstants.TODO_CREATE,
+        id: id,
+        text: text
+      });
+    }
+  }, {
+    key: 'toggleComplete',
+    value: function toggleComplete(todo) {
+      var id = todo.id;
+      var actionType = todo.complete ? TodoConstants.TODO_UNDO_COMPLETE : TodoConstants.TODO_COMPLETE;
+      TodoDispatcher.dispatch({
+        actionType: actionType,
+        id: id
+      });
+    }
+  }, {
+    key: 'toggleAllComplete',
+    value: function toggleAllComplete() {
+      TodoDispatcher.dispatch({
+        actionType: TodoConstants.TODO_TOGGLE_ALL_COMPLETE
+      });
+    }
+  }, {
+    key: 'destroy',
+    value: function destroy(id) {
+      TodoDispatcher.dispatch({
+        actionType: TodoConstants.TODO_DESTROY,
+        id: id
+      });
+    }
+  }, {
+    key: 'destroyCompleted',
+    value: function destroyCompleted(id) {
+      TodoDispatcher.dispatch({
+        actionType: TodoConstants.TODO_DESTROY_COMPLETED,
+        id: id
+      });
+    }
+  }]);
+
+  return TodoActions;
+})();
+
+var actions = new TodoActions();
+module.exports = actions;
+
+},{"../constants/TodoConstants.jsx":166,"../dispatcher/TodoDispatcher.jsx":167}],163:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var TodoActions = require('../actions/TodoActions.jsx');
+
+var TodoTextInput = require('./TodoTextInput.react.jsx');
+var Header = React.createClass({
+  displayName: 'Header',
+
+  render: function render() {
+    return React.createElement('header', { id: 'header' }, React.createElement('h1', null, 'Todos'), React.createElement(TodoTextInput, {
+      id: 'new-todo',
+      placeholder: 'What needs to be done?',
+      onSave: this._onSave
+    }));
+  },
+  _onSave: function _onSave(text) {
+    if (text.trim()) {
+      TodoActions.create(text);
+    }
+  }
+});
+
+module.exports = Header;
+
+},{"../actions/TodoActions.jsx":162,"./TodoTextInput.react.jsx":165,"react":160}],164:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 var TodoStore = require('../stores/TodoStore.jsx');
+
+/*components*/
+var Header = require('./Header.react.jsx');
+
 function getTodoState() {
   return {
     allTodos: TodoStore.getAll(),
@@ -20521,7 +20636,7 @@ var TodoApp = React.createClass({
     TodoStore.removeChangeListener(this._onChange);
   },
   render: function render() {
-    return React.createElement('div', null, 'Hello World');
+    return React.createElement('div', null, React.createElement(Header, null), React.createElement('div', null, 'Hello World 2.0'));
   },
   /**
   * Event handler for 'change' events coming from the TodoStore
@@ -20533,7 +20648,67 @@ var TodoApp = React.createClass({
 
 module.exports = TodoApp;
 
-},{"../stores/TodoStore.jsx":165,"react":160}],163:[function(require,module,exports){
+},{"../stores/TodoStore.jsx":168,"./Header.react.jsx":163,"react":160}],165:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+
+var ReactPropTypes = React.PropTypes;
+
+var ENTER_KEY_CODE = 13;
+
+var TodoTextInput = React.createClass({
+  displayName: 'TodoTextInput',
+
+  propTypes: {
+    className: ReactPropTypes.string,
+    id: ReactPropTypes.string,
+    placeholder: ReactPropTypes.string,
+    onSave: ReactPropTypes.func.isRequired,
+    value: ReactPropTypes.string
+  },
+  getInitialState: function getInitialState() {
+    return {
+      value: this.props.value || ""
+    };
+  },
+  render: function render() {
+    return React.createElement('input', {
+      className: this.props.className,
+      id: this.props.id,
+      placeholder: this.props.placeholder,
+      onBlur: this._save,
+      onChange: this._change,
+      onKeyDown: this._onKeyDown,
+      value: this.state.value,
+      autoFocus: true
+    });
+  },
+  /**
+   * Invokes the callback passed in as onSave, allowing this component to be
+   * used in different ways.
+   */
+  _save: function _save() {
+    this.props.onSave(this.state.value);
+    this.setState({
+      value: ''
+    });
+  },
+  _onChange: function _onChange(event) {
+    this.setState({
+      value: event.target.value
+    });
+  },
+  _onKeyDown: function _onKeyDown(event) {
+    if (event.keyCode === ENTER_KEY_CODE) {
+      this._save();
+    }
+  }
+});
+
+module.exports = TodoTextInput;
+
+},{"react":160}],166:[function(require,module,exports){
 'use strict';
 
 var constants = {
@@ -20547,14 +20722,14 @@ var constants = {
 };
 module.exports = constants;
 
-},{}],164:[function(require,module,exports){
+},{}],167:[function(require,module,exports){
 'use strict';
 
 var Dispatcher = require('flux').Dispatcher;
 
 module.exports = new Dispatcher();
 
-},{"flux":3}],165:[function(require,module,exports){
+},{"flux":3}],168:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) {
@@ -20641,7 +20816,7 @@ TodoDispatcher.register(function (action) {
 
 module.exports = TodoStore;
 
-},{"./../constants/TodoConstants.jsx":163,"./../dispatcher/TodoDispatcher.jsx":164,"events":1}]},{},[161])
+},{"./../constants/TodoConstants.jsx":166,"./../dispatcher/TodoDispatcher.jsx":167,"events":1}]},{},[161])
 
 
 //# sourceMappingURL=bundle.js.map
