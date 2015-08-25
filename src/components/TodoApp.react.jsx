@@ -3,6 +3,8 @@ var TodoStore = require('../stores/TodoStore.jsx');
 
 /*components*/
 var Header = require('./Header.react.jsx');
+var Footer = require('./Footer.react.jsx');
+var MainSection = require('./MainSection.react.jsx');
 
 function getTodoState() {
   return{
@@ -24,7 +26,8 @@ var TodoApp = React.createClass({
     return (
       <div>
         <Header/>
-        <div>Hello World 2.0</div>
+        <MainSection allTodos={this.state.allTodos} areAllComplete={this.state.areAllComplete}/>
+        <Footer allTodos={this.state.allTodos}/>
       </div>
     );
   },

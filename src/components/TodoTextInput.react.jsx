@@ -14,7 +14,7 @@ var TodoTextInput = React.createClass({
   },
   getInitialState: function () {
     return {
-      value: this.props.value || ""
+      value: this.props.value || ''
     };
   },
   render: function () {
@@ -24,7 +24,7 @@ var TodoTextInput = React.createClass({
         id={this.props.id}
         placeholder={this.props.placeholder}
         onBlur={this._save}
-        onChange={this._change}
+        onChange={this._onChange}
         onKeyDown={this._onKeyDown}
         value={this.state.value}
         autoFocus={true}
@@ -47,7 +47,7 @@ var TodoTextInput = React.createClass({
      });
    },
    _onKeyDown: function (event) {
-     if (event.keyCode === ENTER_KEY_CODE) {
+     if (event.keyCode == ENTER_KEY_CODE) {
        this._save();
      }
    }
