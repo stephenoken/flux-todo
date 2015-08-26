@@ -14,6 +14,10 @@ function create(text) {
   };
 }
 
+function updateText(id, text) {
+   _todos[id].text = text;
+}
+
 function destroy(id) {
   delete _todos[id];
 }
@@ -22,6 +26,19 @@ function update(id, updates) {
   _todos[id] = Object.assign({},_todos[id],updates);
 }
 
+function destroyCompleted() {
+   for (var id in _todos) {
+      if (_todos[id].complete) {
+         destroy(id);
+      }
+   }
+}
+
+function updateAll(updates) {
+   for(var id in _todos){
+      update(id, updates);
+   }
+}
 var TodoStore = Object.assign({}, EventEmitter.prototype,{
   areAllComplete: function () {
     for(var id in _todos){
@@ -54,16 +71,34 @@ TodoDispatcher.register(function (action) {
         TodoStore.emitChange();
       }
       break;
+   case TodoConstants.TODO_UPDATE_TEXT:
+      text = action.text.trim();
+      if (text !== '') {
+         updateText(action.id,text);
+         TodoStore.emitChange();
+      }
+      break;
     case TodoConstants.TODO_DESTROY:
       destroy(action.id);
       TodoStore.emitChange();
       break;
-    case TodoConstants.TODO_COMPLETE:
+    case TodoConstants.TODO_COMPLETED:
       update(action.id, {complete:true});
+      TodoStore.emitChange();
+      break;
+    case TodoConstants.TODO_TOGGLE_ALL_COMPLETE:
+      if(TodoStore.areAllComplete()){
+         updateAll({complete:false});
+      }else{
+         updateAll({complete:true});
+      }
       TodoStore.emitChange();
       break;
     case TodoConstants.TODO_UNDO_COMPLETE:
       update(action.id,{complete:false});
+      TodoStore.emitChange();
+    case TodoConstants.TODO_DESTROY_COMPLETED:
+      destroyCompleted();
       TodoStore.emitChange();
     default:
 

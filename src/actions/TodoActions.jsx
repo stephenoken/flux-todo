@@ -11,7 +11,7 @@ class TodoActions {
 
    updateText(id, text){
       TodoDispatcher.dispatch({
-         actionType: TodoConstants.TODO_CREATE,
+         actionType: TodoConstants.TODO_UPDATE_TEXT,
          id: id,
          text: text
       });
@@ -19,7 +19,7 @@ class TodoActions {
 
    toggleComplete(todo){
      var id = todo.id;
-     var actionType = todo.complete? TodoConstants.TODO_UNDO_COMPLETE : TodoConstants.TODO_COMPLETE;
+     var actionType = todo.complete? TodoConstants.TODO_UNDO_COMPLETE : TodoConstants.TODO_COMPLETED;
      TodoDispatcher.dispatch({
        actionType: actionType,
        id : id
@@ -39,10 +39,9 @@ class TodoActions {
      });
    }
 
-   destroyCompleted(id){
+   destroyCompleted(){
      TodoDispatcher.dispatch({
-       actionType: TodoConstants.TODO_DESTROY_COMPLETED,
-       id:id
+       actionType: TodoConstants.TODO_DESTROY_COMPLETED
      });
    }
 }

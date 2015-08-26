@@ -69,7 +69,7 @@ describe('TodoStore', function () {
     expect(TodoStore.areAllComplete()).to.be.false;
     for(var key in all){
         TodoDispatcher.dispatch({
-          actionType: TodoConstants.TODO_COMPLETE,
+          actionType: TodoConstants.TODO_COMPLETED,
           id: key
         });
     }
@@ -79,5 +79,57 @@ describe('TodoStore', function () {
       id: key
     });
     expect(TodoStore.areAllComplete()).to.be.false;
+  });
+
+  it('can update the text of a todo', function () {
+     var all = TodoStore.getAll();
+     var keys = Object.keys(all);
+     expect(keys.length).to.be.equal(1);
+
+     var key = keys[0];
+     var todo = all[key];
+     expect(todo.text).to.be.equal("foo");
+     TodoDispatcher.dispatch({
+        actionType: TodoConstants.TODO_UPDATE_TEXT,
+        id: key,
+        text: "bar"
+     });
+     expect(todo.text).to.be.equal("bar");
+  });
+
+  it('can destroy all completed tasks', function () {
+     //Create two additional todos
+     for(var i = 0; i < 2; i++){
+        TodoDispatcher.dispatch(actionTodoCreate);
+     }
+     var all = TodoStore.getAll();
+     var keys = Object.keys(all);
+     expect(keys.length).to.be.equal(3);
+     //Set one todo as complete
+     var key = keys[0];
+     TodoDispatcher.dispatch({
+       actionType: TodoConstants.TODO_COMPLETED,
+       id: key
+     });
+     var todo = all[key];
+     expect(todo.complete).to.be.true;
+     //Destroy completed todo
+     TodoDispatcher.dispatch({
+        actionType: TodoConstants.TODO_DESTROY_COMPLETED
+     });
+     keys = Object.keys(all);
+     expect(keys.length).to.be.equal(2);
+  });
+
+  it('can set remaining todos to be all completed or uncompleted', function () {
+     expect(TodoStore.areAllComplete()).to.be.false;
+     TodoDispatcher.dispatch({
+        actionType: TodoConstants.TODO_TOGGLE_ALL_COMPLETE
+     });
+     expect(TodoStore.areAllComplete()).to.be.true;
+     TodoDispatcher.dispatch({
+        actionType: TodoConstants.TODO_TOGGLE_ALL_COMPLETE
+     });
+     expect(TodoStore.areAllComplete()).to.be.false;
   });
 });

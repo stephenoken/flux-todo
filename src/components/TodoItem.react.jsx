@@ -59,6 +59,15 @@ var TodoItem = React.createClass({
       this.setState({
          isEditing: true
       });
+   },
+   _onDestroyClick:function () {
+      TodoActions.destroy(this.props.todo.id);
+   },
+   _onSave:function (text) {
+      TodoActions.updateText(this.props.todo.id, text);
+      this.setState({
+         isEditing: false
+      });
    }
 });
 

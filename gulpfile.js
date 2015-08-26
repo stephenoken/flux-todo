@@ -12,6 +12,9 @@ var mocha = require('gulp-mocha');
 var babel = require('babel/register');
 // var babel = require('gulp-babel');
 
+var externalLibs = [
+   "react"
+];
 var customOpts ={
    entries: './src/App.jsx',
    debug: true
@@ -25,7 +28,9 @@ b.transform(babelify.configure({
    plugins: ["object-assign"]
 }));
 // b.transform('debowerify');
-
+externalLibs.forEach(function(lib) {
+  b.external(lib);
+});
 gulp.task('js',bundle);
 b.on('update',bundle);
 b.on('log', gutil.log);
@@ -49,6 +54,18 @@ function bundle() {
     .pipe(gulp.dest('./dist'));
 }
 
+gulp.task('browser-vendor',function bundleVendor() {
+   var browserifyVendor =  browserify({
+        debug: true
+    });
+    externalLibs.forEach(function(lib) {
+      browserifyVendor.require(lib);
+    });
+
+    return browserifyVendor.bundle()
+      .pipe(source('vendor.js'))
+      .pipe(gulp.dest("./dist"));
+});
 gulp.task("test",function () {
   return gulp.src("test/**/*.js")
     .pipe(mocha({
