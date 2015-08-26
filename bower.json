@@ -3,8 +3,5 @@
   "version": "0.0.0",
   "license": "MIT",
   "dependencies": {
-    "react": "~0.13.3",
-    "flux": "~2.0.2",
-    "classnames": "~2.1.3"
   }
 }
