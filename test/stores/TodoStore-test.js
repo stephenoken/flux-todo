@@ -37,7 +37,7 @@ describe('TodoStore', function () {
     expect(TodoDispatcher.register).to.be.calledOnce;
   });
 
-  it('should initialise wiht no to-do items', function () {
+  it('should initialise with no to-do items', function () {
     var all = TodoStore.getAll();
     expect(all).to.be.empty;
   });
@@ -132,4 +132,22 @@ describe('TodoStore', function () {
      });
      expect(TodoStore.areAllComplete()).to.be.false;
   });
+  // TODO: Put these tests in thier own descibe block or change the others to account for localStorage
+  // it('can store todos in local storage',function () {
+  //    var all = TodoStore.getAll();
+  //    var keys = Object.keys(all);
+  //    expect(keys.length).to.be.equal(2);
+  //    var todos = JSON.parse(localStorage["todos"]);
+  //    expect(todos[keys[0]].text).to.be.equal("foo");
+  // });
+  //
+  // it('can delete todos in local storage', function () {
+  //    var all = TodoStore.getAll();
+  //    var keys = Object.keys(all);
+  //    actionTodoDestroy.id=keys[0];
+  //    TodoDispatcher.dispatch(actionTodoDestroy);
+  //    var todos = JSON.parse(localStorage["todos"]);
+  //    expect(todos[keys[1]].id).to.be.equal(keys[1]);
+  // });
+
 });

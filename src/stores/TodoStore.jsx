@@ -3,8 +3,21 @@ var TodoConstants = require('./../constants/TodoConstants.jsx');
 var EventEmitter = require('events').EventEmitter;
 
 var CHANGE_EVENT = 'change';
-var _todos = {};
+try {
+   var _todos = JSON.parse(localStorage["todos"]);
 
+} catch (e) {
+   console.log(`No saved todos available. ${e}`);
+   var _todos = {};
+}
+
+function persistTodos() {
+   try {
+      localStorage["todos"] = JSON.stringify(_todos);
+   } catch (e) {
+         console.error(`Error Occured: ${e}`);
+   }
+}
 function create(text) {
   var id = (new Date()+ Math.floor(Math.random() * 99999)).toString(36);
   _todos[id]= {
@@ -12,18 +25,22 @@ function create(text) {
     complete: false,
     text: text
   };
+  persistTodos();
 }
 
 function updateText(id, text) {
    _todos[id].text = text;
+   persistTodos();
 }
 
 function destroy(id) {
   delete _todos[id];
+  persistTodos();
 }
 
 function update(id, updates) {
   _todos[id] = Object.assign({},_todos[id],updates);
+  // persistTodos();
 }
 
 function destroyCompleted() {
