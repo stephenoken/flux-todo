@@ -11,7 +11,9 @@ var babelify = require('babelify');
 var externalLibs = [
    "react",
    "flux",
-   "classnames"
+   "classnames",
+   "material-ui",
+   "react-tap-event-plugin"
 ];
 var customOpts ={
    entries: './src/App.jsx',

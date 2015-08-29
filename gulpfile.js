@@ -13,7 +13,8 @@ gulp.task('bower', function() {
         .pipe(gulp.dest('src/lib'));
 });
 
-gulp.task("default",["js","test"],function () {
+gulp.task("default",["js","test","sass"],function () {
+   gulp.watch('src/sass/**/*.scss',['sass']);
    gulp.watch('src/**/*.jsx',['test']);
    gulp.watch('test/**/*.js',['test']);
 });
