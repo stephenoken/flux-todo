@@ -31,6 +31,8 @@ describe('TodoStore', function () {
 
   afterEach(function () {
     TodoDispatcher.register.restore();
+    localStorage.clear();
+    TodoStore. clearAll();
   });
 
   it('registers a callback with the dispatcher', function () {
@@ -51,6 +53,7 @@ describe('TodoStore', function () {
   });
 
   it('destorys a to-do item', function () {
+    TodoDispatcher.dispatch(actionTodoCreate);
     var all = TodoStore.getAll();
     var keys = Object.keys(all);
     expect(keys.length).to.be.equal(1);
@@ -82,6 +85,7 @@ describe('TodoStore', function () {
   });
 
   it('can update the text of a todo', function () {
+     TodoDispatcher.dispatch(actionTodoCreate);
      var all = TodoStore.getAll();
      var keys = Object.keys(all);
      expect(keys.length).to.be.equal(1);
@@ -99,7 +103,7 @@ describe('TodoStore', function () {
 
   it('can destroy all completed tasks', function () {
      //Create two additional todos
-     for(var i = 0; i < 2; i++){
+     for(var i = 0; i < 3; i++){
         TodoDispatcher.dispatch(actionTodoCreate);
      }
      var all = TodoStore.getAll();
@@ -122,6 +126,9 @@ describe('TodoStore', function () {
   });
 
   it('can set remaining todos to be all completed or uncompleted', function () {
+     for(var i = 0; i < 3; i++){
+       TodoDispatcher.dispatch(actionTodoCreate);
+     }
      expect(TodoStore.areAllComplete()).to.be.false;
      TodoDispatcher.dispatch({
         actionType: TodoConstants.TODO_TOGGLE_ALL_COMPLETE
@@ -133,21 +140,23 @@ describe('TodoStore', function () {
      expect(TodoStore.areAllComplete()).to.be.false;
   });
   // TODO: Put these tests in thier own descibe block or change the others to account for localStorage
-  // it('can store todos in local storage',function () {
-  //    var all = TodoStore.getAll();
-  //    var keys = Object.keys(all);
-  //    expect(keys.length).to.be.equal(2);
-  //    var todos = JSON.parse(localStorage["todos"]);
-  //    expect(todos[keys[0]].text).to.be.equal("foo");
-  // });
+  it('can store todos in local storage',function () {
+     TodoDispatcher.dispatch(actionTodoCreate);
+     var all = TodoStore.getAll();
+     var keys = Object.keys(all);
+     expect(keys.length).to.be.equal(1);
+     var todos = JSON.parse(localStorage["todos"]);
+     expect(todos[keys[0]].text).to.be.equal("foo");
+  });
   //
-  // it('can delete todos in local storage', function () {
-  //    var all = TodoStore.getAll();
-  //    var keys = Object.keys(all);
-  //    actionTodoDestroy.id=keys[0];
-  //    TodoDispatcher.dispatch(actionTodoDestroy);
-  //    var todos = JSON.parse(localStorage["todos"]);
-  //    expect(todos[keys[1]].id).to.be.equal(keys[1]);
-  // });
+  it('can delete todos in local storage', function () {
+     TodoDispatcher.dispatch(actionTodoCreate);
+     var all = TodoStore.getAll();
+     var keys = Object.keys(all);
+     actionTodoDestroy.id=keys[0];
+     TodoDispatcher.dispatch(actionTodoDestroy);
+     var todos = JSON.parse(localStorage["todos"]);
+     expect(todos).to.be.empty;
+  });
 
 });

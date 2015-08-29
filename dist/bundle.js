@@ -784,6 +784,9 @@ var TodoStore = _extends({}, EventEmitter.prototype, {
   getAll: function getAll() {
     return _todos;
   },
+  clearAll: function clearAll() {
+    _todos = {};
+  },
   addChangeListener: function addChangeListener(callback) {
     this.on(CHANGE_EVENT, callback);
   },
