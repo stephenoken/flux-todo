@@ -1,12 +1,15 @@
 var React = require('react');
+var mui = require('material-ui');
 var TodoStore = require('../stores/TodoStore.jsx');
 var ThemeManager = require('material-ui/lib/styles/theme-manager')();
+var Colors = mui.Styles.Colors;
 
 /*components*/
 var Header = require('./Header.react.jsx');
 var Footer = require('./Footer.react.jsx');
 var MainSection = require('./MainSection.react.jsx');
 
+ThemeManager.setTheme(ThemeManager.types.DARK);
 function getTodoState() {
   return{
     allTodos: TodoStore.getAll(),
@@ -22,6 +25,18 @@ var TodoApp = React.createClass({
    return {
      muiTheme: ThemeManager.getCurrentTheme()
    };
+  },
+  componentWillMount() {
+    ThemeManager.setPalette({
+      accent1Color: Colors.deepOrange500,
+      primary1Color: Colors.green700
+    });
+    ThemeManager.setComponentThemes({
+      appBar: {
+        color: Colors.deepOrange500,
+        textColor: Colors.grey50
+      }
+    });
   },
   getInitialState: function () {
     return getTodoState();

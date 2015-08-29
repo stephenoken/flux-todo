@@ -1,7 +1,5 @@
 var React = require('react');
 var mui = require('material-ui');
-var ThemeManager = require('material-ui/lib/styles/theme-manager')();
-var Colors = mui.Styles.Colors;
 
 var TodoActions = require('../actions/TodoActions.jsx');
 
@@ -14,22 +12,6 @@ var MenuItem = mui.MenuItem;
 
 var Header = React.createClass({
 
-   childContextTypes: {
-    muiTheme: React.PropTypes.object
-  },
-
-  getChildContext() {
-    return {
-      muiTheme: ThemeManager.getCurrentTheme()
-    };
-  },
-
-  componentWillMount() {
-    ThemeManager.setPalette({
-      accent1Color: Colors.deepOrange500,
-      primary1Color: Colors.green700
-    });
-  },
   render: function () {
      var menuItems = [
      { route: 'get-started', text: 'Get Started' },

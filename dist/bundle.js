@@ -1353,8 +1353,6 @@ module.exports = Footer;
 
 var React = require('react');
 var mui = require('material-ui');
-var ThemeManager = require('material-ui/lib/styles/theme-manager')();
-var Colors = mui.Styles.Colors;
 
 var TodoActions = require('../actions/TodoActions.jsx');
 
@@ -1368,22 +1366,6 @@ var MenuItem = mui.MenuItem;
 var Header = React.createClass({
    displayName: 'Header',
 
-   childContextTypes: {
-      muiTheme: React.PropTypes.object
-   },
-
-   getChildContext: function getChildContext() {
-      return {
-         muiTheme: ThemeManager.getCurrentTheme()
-      };
-   },
-
-   componentWillMount: function componentWillMount() {
-      ThemeManager.setPalette({
-         accent1Color: Colors.deepOrange500,
-         primary1Color: Colors.green700
-      });
-   },
    render: function render() {
       var menuItems = [{ route: 'get-started', text: 'Get Started' }, { route: 'customization', text: 'Customization' }, { route: 'components', text: 'Components' }, { type: MenuItem.Types.SUBHEADER, text: 'Resources' }, {
          type: MenuItem.Types.LINK,
@@ -1426,7 +1408,7 @@ var Header = React.createClass({
 
 module.exports = Header;
 
-},{"../actions/TodoActions.jsx":10,"./TodoTextInput.react.jsx":16,"material-ui":"material-ui","material-ui/lib/styles/theme-manager":4,"react":"react"}],13:[function(require,module,exports){
+},{"../actions/TodoActions.jsx":10,"./TodoTextInput.react.jsx":16,"material-ui":"material-ui","react":"react"}],13:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -1478,14 +1460,17 @@ module.exports = MainSection;
 'use strict';
 
 var React = require('react');
+var mui = require('material-ui');
 var TodoStore = require('../stores/TodoStore.jsx');
 var ThemeManager = require('material-ui/lib/styles/theme-manager')();
+var Colors = mui.Styles.Colors;
 
 /*components*/
 var Header = require('./Header.react.jsx');
 var Footer = require('./Footer.react.jsx');
 var MainSection = require('./MainSection.react.jsx');
 
+ThemeManager.setTheme(ThemeManager.types.DARK);
 function getTodoState() {
   return {
     allTodos: TodoStore.getAll(),
@@ -1503,6 +1488,18 @@ var TodoApp = React.createClass({
     return {
       muiTheme: ThemeManager.getCurrentTheme()
     };
+  },
+  componentWillMount: function componentWillMount() {
+    ThemeManager.setPalette({
+      accent1Color: Colors.deepOrange500,
+      primary1Color: Colors.green700
+    });
+    ThemeManager.setComponentThemes({
+      appBar: {
+        color: Colors.deepOrange500,
+        textColor: Colors.grey50
+      }
+    });
   },
   getInitialState: function getInitialState() {
     return getTodoState();
@@ -1526,7 +1523,7 @@ var TodoApp = React.createClass({
 
 module.exports = TodoApp;
 
-},{"../stores/TodoStore.jsx":19,"./Footer.react.jsx":11,"./Header.react.jsx":12,"./MainSection.react.jsx":13,"material-ui/lib/styles/theme-manager":4,"react":"react"}],15:[function(require,module,exports){
+},{"../stores/TodoStore.jsx":19,"./Footer.react.jsx":11,"./Header.react.jsx":12,"./MainSection.react.jsx":13,"material-ui":"material-ui","material-ui/lib/styles/theme-manager":4,"react":"react"}],15:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
