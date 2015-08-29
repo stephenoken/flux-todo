@@ -2,9 +2,14 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var TodoActions = require('../actions/TodoActions.jsx');
 var TodoItem = require('./TodoItem.react.jsx');
+var mui = require('material-ui');
+
 // var TodoItems = require('');
 
+//Material-components
+var Checkbox = mui.Checkbox;
 var MainSection = React.createClass({
+
    propTypes:{
       allTodos: ReactPropTypes.object.isRequired,
       areAllComplete: ReactPropTypes.bool.isRequired
@@ -23,13 +28,14 @@ var MainSection = React.createClass({
 
       return(
          <section id="main">
-            <input
-               id="toggle-all"
-               type="checkbox"
-               onChange={this._onToggleCompleteAll}
-               checked={this.props.areAllComplete? 'checked':''}
+           <Checkbox
+             id="toggle-all"
+             name="checkboxName1"
+             value="checkboxValue1"
+             label="Mark all as Complete"
+             onCheck={this._onToggleCompleteAll}
+             defaultChecked={this.props.areAllComplete}
             />
-            <label htmlFor="toggle-all">Mark all as Complete</label>
             <ul id="todo-list">{todos}</ul>
          </section>
       );

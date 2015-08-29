@@ -6,10 +6,11 @@ var Colors = mui.Styles.Colors;
 var TodoActions = require('../actions/TodoActions.jsx');
 
 //Components
+var TodoTextInput = require('./TodoTextInput.react.jsx');
+//Material Components
 var AppBar = mui.AppBar;
 var LeftNav = mui.LeftNav;
 var MenuItem = mui.MenuItem;
-var TodoTextInput = require('./TodoTextInput.react.jsx');
 
 var Header = React.createClass({
 

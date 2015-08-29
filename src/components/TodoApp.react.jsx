@@ -1,5 +1,6 @@
 var React = require('react');
 var TodoStore = require('../stores/TodoStore.jsx');
+var ThemeManager = require('material-ui/lib/styles/theme-manager')();
 
 /*components*/
 var Header = require('./Header.react.jsx');
@@ -13,6 +14,15 @@ function getTodoState() {
   };
 }
 var TodoApp = React.createClass({
+  childContextTypes: {
+   muiTheme: React.PropTypes.object
+  },
+
+  getChildContext() {
+   return {
+     muiTheme: ThemeManager.getCurrentTheme()
+   };
+  },
   getInitialState: function () {
     return getTodoState();
   },

@@ -1359,10 +1359,11 @@ var Colors = mui.Styles.Colors;
 var TodoActions = require('../actions/TodoActions.jsx');
 
 //Components
+var TodoTextInput = require('./TodoTextInput.react.jsx');
+//Material Components
 var AppBar = mui.AppBar;
 var LeftNav = mui.LeftNav;
 var MenuItem = mui.MenuItem;
-var TodoTextInput = require('./TodoTextInput.react.jsx');
 
 var Header = React.createClass({
    displayName: 'Header',
@@ -1432,8 +1433,12 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var TodoActions = require('../actions/TodoActions.jsx');
 var TodoItem = require('./TodoItem.react.jsx');
+var mui = require('material-ui');
+
 // var TodoItems = require('');
 
+//Material-components
+var Checkbox = mui.Checkbox;
 var MainSection = React.createClass({
    displayName: 'MainSection',
 
@@ -1453,12 +1458,14 @@ var MainSection = React.createClass({
          todos.push(React.createElement(TodoItem, { key: key, todo: allTodos[key] }));
       }
 
-      return React.createElement('section', { id: 'main' }, React.createElement('input', {
+      return React.createElement('section', { id: 'main' }, React.createElement(Checkbox, {
          id: 'toggle-all',
-         type: 'checkbox',
-         onChange: this._onToggleCompleteAll,
-         checked: this.props.areAllComplete ? 'checked' : ''
-      }), React.createElement('label', { htmlFor: 'toggle-all' }, 'Mark all as Complete'), React.createElement('ul', { id: 'todo-list' }, todos));
+         name: 'checkboxName1',
+         value: 'checkboxValue1',
+         label: 'Mark all as Complete',
+         onCheck: this._onToggleCompleteAll,
+         defaultChecked: this.props.areAllComplete
+      }), React.createElement('ul', { id: 'todo-list' }, todos));
    },
    _onToggleCompleteAll: function _onToggleCompleteAll() {
       TodoActions.toggleAllComplete();
@@ -1467,11 +1474,12 @@ var MainSection = React.createClass({
 
 module.exports = MainSection;
 
-},{"../actions/TodoActions.jsx":10,"./TodoItem.react.jsx":15,"react":"react"}],14:[function(require,module,exports){
+},{"../actions/TodoActions.jsx":10,"./TodoItem.react.jsx":15,"material-ui":"material-ui","react":"react"}],14:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
 var TodoStore = require('../stores/TodoStore.jsx');
+var ThemeManager = require('material-ui/lib/styles/theme-manager')();
 
 /*components*/
 var Header = require('./Header.react.jsx');
@@ -1487,6 +1495,15 @@ function getTodoState() {
 var TodoApp = React.createClass({
   displayName: 'TodoApp',
 
+  childContextTypes: {
+    muiTheme: React.PropTypes.object
+  },
+
+  getChildContext: function getChildContext() {
+    return {
+      muiTheme: ThemeManager.getCurrentTheme()
+    };
+  },
   getInitialState: function getInitialState() {
     return getTodoState();
   },
@@ -1509,7 +1526,7 @@ var TodoApp = React.createClass({
 
 module.exports = TodoApp;
 
-},{"../stores/TodoStore.jsx":19,"./Footer.react.jsx":11,"./Header.react.jsx":12,"./MainSection.react.jsx":13,"react":"react"}],15:[function(require,module,exports){
+},{"../stores/TodoStore.jsx":19,"./Footer.react.jsx":11,"./Header.react.jsx":12,"./MainSection.react.jsx":13,"material-ui/lib/styles/theme-manager":4,"react":"react"}],15:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -1581,7 +1598,11 @@ module.exports = TodoItem;
 'use strict';
 
 var React = require('react');
+var mui = require('material-ui');
+var ThemeManager = require('material-ui/lib/styles/theme-manager')();
 
+//Material-components
+var TextField = mui.TextField;
 var ReactPropTypes = React.PropTypes;
 
 var ENTER_KEY_CODE = 13;
@@ -1589,6 +1610,15 @@ var ENTER_KEY_CODE = 13;
 var TodoTextInput = React.createClass({
   displayName: 'TodoTextInput',
 
+  childContextTypes: {
+    muiTheme: React.PropTypes.object
+  },
+
+  getChildContext: function getChildContext() {
+    return {
+      muiTheme: ThemeManager.getCurrentTheme()
+    };
+  },
   propTypes: {
     className: ReactPropTypes.string,
     id: ReactPropTypes.string,
@@ -1602,16 +1632,27 @@ var TodoTextInput = React.createClass({
     };
   },
   render: function render() {
-    return React.createElement('input', {
-      className: this.props.className,
+    return React.createElement(TextField, {
+      hintText: this.props.placeholder,
+      floatingLabelText: 'What to do',
       id: this.props.id,
-      placeholder: this.props.placeholder,
       onBlur: this._save,
       onChange: this._onChange,
       onKeyDown: this._onKeyDown,
       value: this.state.value,
       autoFocus: true
-    });
+    })
+    // <input
+    //   className={this.props.className}
+    //   id={this.props.id}
+    //   placeholder={this.props.placeholder}
+    //   onBlur={this._save}
+    //   onChange={this._onChange}
+    //   onKeyDown={this._onKeyDown}
+    //   value={this.state.value}
+    //   autoFocus={true}
+    //   />
+    ;
   },
   /**
    * Invokes the callback passed in as onSave, allowing this component to be
@@ -1637,7 +1678,7 @@ var TodoTextInput = React.createClass({
 
 module.exports = TodoTextInput;
 
-},{"react":"react"}],17:[function(require,module,exports){
+},{"material-ui":"material-ui","material-ui/lib/styles/theme-manager":4,"react":"react"}],17:[function(require,module,exports){
 'use strict';
 
 var constants = {
