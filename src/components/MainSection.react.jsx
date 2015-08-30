@@ -8,6 +8,8 @@ var mui = require('material-ui');
 
 //Material-components
 var Checkbox = mui.Checkbox;
+var List = mui.List;
+
 var MainSection = React.createClass({
 
    propTypes:{
@@ -36,9 +38,10 @@ var MainSection = React.createClass({
              onCheck={this._onToggleCompleteAll}
              defaultChecked={this.props.areAllComplete}
             />
-            <ul id="todo-list">{todos}</ul>
+          <List>{todos}</List>
          </section>
       );
+            // <ul id="todo-list">{todos}</ul>
    },
    _onToggleCompleteAll:function () {
       TodoActions.toggleAllComplete();

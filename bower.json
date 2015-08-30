@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "dependencies": {
+    "material-design-icons": "~2.0.0",
     "roboto-fontface": "~0.4.3"
   }
 }

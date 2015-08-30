@@ -9,7 +9,6 @@ var Header = require('./Header.react.jsx');
 var Footer = require('./Footer.react.jsx');
 var MainSection = require('./MainSection.react.jsx');
 
-ThemeManager.setTheme(ThemeManager.types.DARK);
 function getTodoState() {
   return{
     allTodos: TodoStore.getAll(),
@@ -28,13 +27,11 @@ var TodoApp = React.createClass({
   },
   componentWillMount() {
     ThemeManager.setPalette({
-      accent1Color: Colors.deepOrange500,
-      primary1Color: Colors.green700
+      textColor: Colors.blueGrey700
     });
     ThemeManager.setComponentThemes({
       appBar: {
-        color: Colors.deepOrange500,
-        textColor: Colors.grey50
+        color: Colors.deepOrange500
       }
     });
   },

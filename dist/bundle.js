@@ -1421,6 +1421,8 @@ var mui = require('material-ui');
 
 //Material-components
 var Checkbox = mui.Checkbox;
+var List = mui.List;
+
 var MainSection = React.createClass({
    displayName: 'MainSection',
 
@@ -1447,7 +1449,8 @@ var MainSection = React.createClass({
          label: 'Mark all as Complete',
          onCheck: this._onToggleCompleteAll,
          defaultChecked: this.props.areAllComplete
-      }), React.createElement('ul', { id: 'todo-list' }, todos));
+      }), React.createElement(List, null, todos));
+      // <ul id="todo-list">{todos}</ul>
    },
    _onToggleCompleteAll: function _onToggleCompleteAll() {
       TodoActions.toggleAllComplete();
@@ -1470,7 +1473,6 @@ var Header = require('./Header.react.jsx');
 var Footer = require('./Footer.react.jsx');
 var MainSection = require('./MainSection.react.jsx');
 
-ThemeManager.setTheme(ThemeManager.types.DARK);
 function getTodoState() {
   return {
     allTodos: TodoStore.getAll(),
@@ -1491,13 +1493,11 @@ var TodoApp = React.createClass({
   },
   componentWillMount: function componentWillMount() {
     ThemeManager.setPalette({
-      accent1Color: Colors.deepOrange500,
-      primary1Color: Colors.green700
+      textColor: Colors.blueGrey700
     });
     ThemeManager.setComponentThemes({
       appBar: {
-        color: Colors.deepOrange500,
-        textColor: Colors.grey50
+        color: Colors.deepOrange500
       }
     });
   },
@@ -1530,8 +1530,13 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var TodoActions = require('../actions/TodoActions.jsx');
 var TodoTextInput = require('./TodoTextInput.react.jsx');
+var mui = require('material-ui');
 
 var classNames = require('classnames');
+
+//Material Components
+var ListItem = mui.ListItem;
+var Checkbox = mui.Checkbox;
 
 var TodoItem = React.createClass({
    displayName: 'TodoItem',
@@ -1556,24 +1561,45 @@ var TodoItem = React.createClass({
             onSave: this._onSave,
             value: todo.text
          });
+      } else {
+         input = todo.text;
       }
 
-      return React.createElement('li', {
-         className: classNames({
-            'completed': todo.complete,
-            'editing': this.state.isEditing
-         }),
-         key: todo.id }, React.createElement('div', { className: 'view' }, React.createElement('input', {
-         className: 'toggle',
-         type: 'checkbox',
-         checked: todo.complete,
-         onChange: this._onToggleComplete
-      }), React.createElement('label', { onDoubleClick: this._onDoubleClick }, todo.text), React.createElement('input', { type: 'button', className: 'destroy', onClick: this._onDestroyClick })), input);
+      var checkBox = React.createElement(Checkbox, {
+         onCheck: this._onToggleComplete,
+         defaultChecked: todo.complete
+      });
+
+      return React.createElement(ListItem, {
+         primaryText: input,
+         leftCheckbox: checkBox
+      })
+      //  <li
+      //     className={classNames({
+      //        'completed': todo.complete,
+      //        'editing': this.state.isEditing
+      //     })}
+      //     key={todo.id}>
+      //     <div className="view">
+      //  <input
+      //     className="toggle"
+      //     type="checkbox"
+      //     checked={todo.complete}
+      //     onChange={this._onToggleComplete}
+      //  />
+      //        <label onDoubleClick={this._onEdit}>
+      //           {todo.text}
+      //        </label>
+      //        <input type="button" className="destroy" onClick={this._onDestroyClick}/>
+      //     </div>
+      //     {input}
+      //  </li>
+      ;
    },
    _onToggleComplete: function _onToggleComplete() {
       TodoActions.toggleComplete(this.props.todo);
    },
-   _onDoubleClick: function _onDoubleClick() {
+   _onEdit: function _onEdit() {
       this.setState({
          isEditing: true
       });
@@ -1591,7 +1617,7 @@ var TodoItem = React.createClass({
 
 module.exports = TodoItem;
 
-},{"../actions/TodoActions.jsx":10,"./TodoTextInput.react.jsx":16,"classnames":"classnames","react":"react"}],16:[function(require,module,exports){
+},{"../actions/TodoActions.jsx":10,"./TodoTextInput.react.jsx":16,"classnames":"classnames","material-ui":"material-ui","react":"react"}],16:[function(require,module,exports){
 'use strict';
 
 var React = require('react');

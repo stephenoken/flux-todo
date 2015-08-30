@@ -7,6 +7,8 @@ var gutil = require('gulp-util');
 var sourcemaps = require('gulp-sourcemaps');
 var assign = require('lodash.assign');
 var babelify = require('babelify');
+var uglify = require('gulp-uglify');
+var gzip = require('gulp-gzip');
 
 var externalLibs = [
    "react",
@@ -64,5 +66,8 @@ gulp.task('browser-vendor',function bundleVendor() {
 
     return browserifyVendor.bundle()
       .pipe(source('vendor.js'))
+      .pipe(buffer())
+      .pipe(uglify())
+      .pipe(gzip())
       .pipe(gulp.dest("./dist"));
 });
